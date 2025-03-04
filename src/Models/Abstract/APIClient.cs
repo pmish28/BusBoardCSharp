@@ -1,15 +1,14 @@
-using System.ComponentModel.DataAnnotations;
-using System.Security.AccessControl;
 using RestSharp;
 
-namespace BusBoard{
-    public interface IAPIClient{
+namespace BusBoard
+{
 
+    public abstract class APIClient
+    {
         public static RestClient Client { get; set; }
-        
-        static async Task<T> GetAPIResponse<T>(RestRequest request, string url){
 
-            Client = new(new RestClientOptions(url));
+        public static async Task<T> GetAPIResponse<T>(RestRequest request)
+        {
             var resp = await Client.GetAsync(request);
             var response = await Client.GetAsync<T>(request);
             if (response == null)
@@ -18,5 +17,5 @@ namespace BusBoard{
             }
             return response;
         }
-    }    
+    }
 }
